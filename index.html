@@ -1258,6 +1258,27 @@ const photoPath = 'assets/pedro.jpg';
     img.src = photoPath;
   }
 });
+
+/* ── PORTFOLIO PRELOADER
+   Após o hero carregar, baixa as imagens do portfólio em background.
+   Quando o usuário chegar nos cards, já estão em cache — aparecem na hora. ── */
+function preloadPortfolioImages() {
+  document.querySelectorAll('.p-card img').forEach(img => {
+    const src = img.getAttribute('src');
+    if (src) { new Image().src = src; }
+  });
+}
+if (document.readyState === 'complete') {
+  'requestIdleCallback' in window
+    ? requestIdleCallback(preloadPortfolioImages, { timeout: 2000 })
+    : setTimeout(preloadPortfolioImages, 400);
+} else {
+  window.addEventListener('load', () => {
+    'requestIdleCallback' in window
+      ? requestIdleCallback(preloadPortfolioImages, { timeout: 2000 })
+      : setTimeout(preloadPortfolioImages, 400);
+  });
+}
 </script>
 </body>
 </html>
